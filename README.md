@@ -10,17 +10,34 @@ This is a serverless application that is hosted on AWS. The application is built
 - CloudFront _(TODO)_
 
 
+
+### Getting Started
+
+From the src folder, run the following command to build the application:
+
+MacOS:
+```bash
+build.sh
+```
+
+powershell:
+```bash
+.\build.ps1
+```
+
+
+Navigate to the terrform directory
+```bash
+terraform init
+terraform plan --out=development
+terraform apply "development"
+```
 ---
 
 <br/>
 
 ```bash
 export AWS_REGION=eu-west-2
-```
-
-
-```bash
-terraform plan --out=test
 ```
 
 ### Pre-requisites
@@ -58,25 +75,3 @@ brew install terraform
 
 ---
 
-
-#### Getting Started
-
-From the src folder, run the following command to build the application:
-
-MacOS:
-```bash
-build.sh
-```
-
-powershell:
-```bash
-.\build.ps1
-```
-
-
-Navigate to the terrform directory
-```bash
-terraform init
-terraform plan --out=development
-terraform apply "development"
-```
