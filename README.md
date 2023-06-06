@@ -1,4 +1,3 @@
-# tomfletcher.tech serverless application
 ### Summary
 This is a serverless application that is hosted on AWS. The application is built using Terraform and Golang. The application is a simple API that allows you to create, read, update and delete blog posts. The application is built using the following AWS services:
 - API Gateway
@@ -10,17 +9,6 @@ This is a serverless application that is hosted on AWS. The application is built
 - AWS Certificate Manager _(TODO)_
 - CloudFront _(TODO)_
 
-### TODO:
-- [x] Add `go.mod` files for each function, this will ensure that the binary is smaller, won't include unused packages. Plus, it will make the execution time shorter, therefor cheaper.
-- [ ] Update Terraform code for the API Gateway to map to a custom domain name.
-- [ ] Add a `Makefile` to the root of the project to make it easier to build and deploy the project.
-- [ ] Look at how to add encryption to an S3 Bucket
-- [X] Update the Lambda S3 Location to be private.
-- [ ] Add Tests to the Lambda Functions
-- [ ] Add the Postman testing collection to the source code.
-- [ ] Look at Event Bridge to generate events between services.
-- [ ] Add a CI/CD pipeline to the project.
-- [ ] Add authentication to specific the API Gateway (terraform).
 
 ---
 
@@ -40,7 +28,6 @@ To run this application you will need the following installed on your machine:
 - Terraform
 - GOLANG
 - AWS CLI
-- AWS SAM CLI _(Optional)_
 
 #### GO
 - [GO Downlaond](https://golang.org/dl/)
@@ -70,9 +57,26 @@ brew install terraform
 
 
 ---
-#### Local Debugging _beta_
 
-> This hasn't been fully integrated into the project yet and it is a fucking nightmare to get working... 
+
+#### Getting Started
+
+From the src folder, run the following command to build the application:
+
+MacOS:
 ```bash
-sam build --hook-name terraform --beta-features  
+build.sh
+```
+
+powershell:
+```bash
+.\build.ps1
+```
+
+
+Navigate to the terrform directory
+```bash
+terraform init
+terraform plan --out=development
+terraform apply "development"
 ```
