@@ -23,7 +23,7 @@ variable "environment" {
 
   validation {
     condition     = contains(["dev", "uat", "prd"], var.environment)
-    error_message = "Value for invalid environmet. Valid values: dev, uat, prd."
+    error_message = "Value invalid for environmet. Valid values: dev, uat, prd."
   }
 
   default = "dev"
