@@ -237,7 +237,7 @@ variable "standard_group_name" {
 }
 
 module "cognito" {
-  source = "./cognito"
+  source = "./tf-modules/cognito"
 
   user_pool_name     = var.user_pool_name
   admin_group_name   = var.admin_group_name
