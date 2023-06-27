@@ -30,4 +30,4 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_dynamodb_table"></a> [dynamodb\_table](#output\_dynamodb\_table) | n/a |
+| <a name="output_name"></a> [name](#output\_name) | n/a |

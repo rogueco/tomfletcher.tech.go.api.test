@@ -57,3 +57,11 @@ variable "source_code_hash" {
   type        = string
   description = "(Optional) Used to trigger updates. Must be set to a base64-encoded SHA256 hash of the package file specified with either filename or s3_key."
 }
+
+variable "arn_list" {
+  type        = list(string)
+  description = "List of policies to be attached"
+  default     = []
+}
+
+

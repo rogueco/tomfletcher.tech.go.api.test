@@ -17,3 +17,8 @@ output "function_role_name" {
   value       = aws_iam_role.lambda_function_role.name
   description = "Name for lambda function role"
 }
+
+output "function_id" {
+  value       = aws_iam_role.lambda_function_role.id
+  description = "ID for lambda function role"
+}

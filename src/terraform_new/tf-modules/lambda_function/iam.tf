@@ -12,3 +12,8 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attach" {
   count      = length(var.iam_policy_lambda)
   policy_arn = var.iam_policy_lambda[count.index]
 }
+
+resource "aws_iam_role_policy_attachment" "lambda_policy_attach_others" {
+  role       = aws_iam_role.lambda_function_role.name
+  policy_arn = var.arn_list
+}
