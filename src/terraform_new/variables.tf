@@ -36,14 +36,14 @@ variable "update_project_lambda_api" {
 }
 
 variable "lambda_bucket_public_access" {
-    type = map(bool)
+  type = map(bool)
 
-    default = {
-      "acls" = true
-      "policy" = true
-      "ignore_acls" = true
-      "restrict" = true
-    }
+  default = {
+    "acls"        = true
+    "policy"      = true
+    "ignore_acls" = true
+    "restrict"    = true
+  }
 }
 
 variable "create_project_lambda" {
@@ -83,7 +83,7 @@ variable "upload_project_image_lambda_api" {
 
   default = {
     "http_method" = "POST"
-    "route" = "/{projectId}/image"
+    "route"       = "/{projectId}/image"
   }
 }
 
@@ -103,7 +103,7 @@ variable "get_project_lambda_api" {
 
   default = {
     "http_method" = "GET"
-    "route" = "/{projectId}"
+    "route"       = "/{projectId}"
   }
 }
 
@@ -123,7 +123,7 @@ variable "get_projects_lambda_api" {
 
   default = {
     "http_method" = "GET"
-    "route" = "/{projectId}"
+    "route"       = "/{projectId}"
   }
 }
 
@@ -143,6 +143,92 @@ variable "delete_project_lambda_api" {
 
   default = {
     "http_method" = "DELETE"
-    "route" = "/{projectId}"
+    "route"       = "/{projectId}"
   }
+}
+
+variable "uploaded_bucket" {
+  type = map(string)
+
+  default = {
+    "name" = "test"
+  }
+}
+
+variable "uploaded_bucket_public_access" {
+  type = map(bool)
+
+  default = {
+    "acls"        = false
+    "policy"      = true
+    "ignore_acls" = true
+    "restrict"    = true
+  }
+}
+
+variable "cognito_user_pool" {
+  type    = string
+  default = "test"
+
+}
+
+variable "cognito_user_pool_client" {
+  type    = string
+  default = "test_client"
+
+}
+
+variable "cognito_user_group_admin" {
+  type    = string
+  default = "test_admin"
+
+}
+
+variable "cognito_user_group_admin_statement" {
+  default = <<EOF
+    {
+      "Statement" : [
+        {
+          "Action" : "execute-api:Invoke",
+          "Resource" : "arn:aws:execute-api:eu-west-2:123456789012:api-id/*"
+        }
+      ]
+    }
+  EOF
+}
+
+variable "cognito_user_group_standard" {
+  type    = string
+  default = "test_standard"
+}
+
+variable "cognito_user_group_standard_statement" {
+  default = <<EOF
+    {
+      "Statement" : [
+        {
+          "actions" : ["execute-api:Invoke"],
+          "resources" : ["arn:aws:execute-api:us-east-1:123456789012:api-id/*"],
+          "conditions" : [
+            {
+              "test" : "StringEquals",
+              "variable" : "aws:RequestedResourceTag/allowed-method",
+              "values" : ["GET"]
+            }
+          ]
+        }
+
+      ]
+    }
+ EOF
+}
+
+variable "cognito_username_admin" {
+  type    = string
+  default = "adminUser"
+}
+
+variable "cognito_username_standard" {
+  type    = string
+  default = "standardUser"
 }
