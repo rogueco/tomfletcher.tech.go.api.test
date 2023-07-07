@@ -232,3 +232,109 @@ variable "cognito_username_standard" {
   type    = string
   default = "standardUser"
 }
+
+variable "cognito_user_deny_get_all" {
+  default = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "DenyAccessToGetAll",
+        "Effect": "Deny",
+        "Action": "execute-api:Invoke",
+        "Resource": "arn:aws:execute-api:<region>:<account-id>:<api-id>/<stage>/GET/GetAll"
+      }
+    ]
+  }
+  EOF
+
+}
+
+variable "cognito_user_allow_get_by_id" {
+  default = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "AllowAccessToGetById",
+        "Effect": "Allow",
+        "Action": "execute-api:Invoke",
+        "Resource": "arn:aws:execute-api:<region>:<account-id>:<api-id>/<stage>/GET/Get/{id}"
+      }
+    ]
+  }
+  EOF
+
+}
+
+variable "api_gateway" {
+  type = map(string)
+
+  default = {
+    "name" = "project-api"
+    "stage_name" = "dev"
+  }
+  
+}
+
+variable "api_gateway_stage_deploy" {
+  type = bool
+
+  default = true
+  
+}
+
+variable "api_gateway_authorizer" {
+  type = map(string)
+
+  default = {
+    name                   = "MyAuthorizer"
+    identity_source        = "method.request.header.Authorization"
+  }
+}
+
+variable "api_gateway_resource" {
+  type = map(any)
+
+  default = {
+    path_part = "my-resource"
+  }
+}
+
+variable "api_gateway_method" {
+  type = map(any)
+
+  default = {
+    http_method    = "POST"
+    authorization  = "COGNITO_USER_POOLS"
+  }
+}
+
+variable "api_gateway_deployment" {
+  type = map(any)
+
+  default = {
+    stage_name = "dev"
+  }
+}
+
+variable "api_gateway_domain_name" {
+  type = map(any)
+
+  default = {
+    name                    = "api.example.com"
+    certificate_arn         = "arn:aws:acm:{region}:{account_id}:certificate/{certificate_id}"
+    endpoint_configuration = {
+      types = ["REGIONAL"]
+    }
+  }
+}
+
+variable "api_gateway_base_path_mapping" {
+  type = map(any)
+
+  default = {
+    domain_name = "api.example.com"
+    stage_name  = "dev"
+  }
+}

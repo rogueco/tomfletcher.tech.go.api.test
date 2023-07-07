@@ -256,6 +256,16 @@ module "cognito_user_group_standard" {
 
 }
 
+module "cognito_user_group_standard_deny" {
+  source = "./tf-modules/cognito_user_group"
+
+  name             = var.cognito_user_group_standard
+  user_pool_id     = module.cognito_user_pool.id
+  policy_statement = [var.cognito_user_group_standard_statement, var.cognito_user_deny_get_all]
+
+}
+
+
 module "cognito_user_admin" {
   source = "./tf-modules/cognito_user"
 
@@ -286,4 +296,68 @@ module "cognito_user_standard_group_attachment" {
   username     = module.cognito_user_standard.username
   group_name   = module.cognito_user_group_standard.name
 
+}
+
+module "api_gateway" {
+  source = "./tf-modules/api_gateway_api"
+  
+  api_name = var.api_gateway["name"]
+  stage_name = var.api_gateway["stage_name"]
+  stage_auto_deploy = var.api_gateway_stage_deploy
+}
+
+module "api_gateway_authorizer" {
+  source = "./tf-modules/api_gateway_authorizer"
+
+  api_id        = module.api_gateway.api_id
+  api_arn       = module.api_gateway.api_arn
+  authorizer_name = var.api_gateway_authorizer["name"]
+  identity_source = var.api_gateway_authorizer["identity_source"]
+  provider_arns   = var.api_gateway_authorizer["provider_arns"]
+  type            = var.api_gateway_authorizer["type"]
+  authorizer_uri  = var.api_gateway_authorizer["authorizer_uri"]
+  authorizer_credentials = var.api_gateway_authorizer["authorizer_credentials"]
+}
+
+module "api_gateway_resource" {
+  source = "./tf-modules/api_gateway_resource"
+
+  api_id      = module.api_gateway.api_id
+  parent_id   = module.api_gateway.api_root_resource_id
+  path_part   = var.api_gateway_resource["path_part"]
+  authorizer_id = module.api_gateway_authorizer.authorizer_id
+}
+
+module "api_gateway_method" {
+  source = "./tf-modules/api_gateway_method"
+
+  api_id         = module.api_gateway.api_id
+  resource_id    = module.api_gateway_resource.resource_id
+  http_method    = var.api_gateway_method["http_method"]
+  authorization  = var.api_gateway_method["authorization"]
+  authorizer_id  = module.api_gateway_authorizer.authorizer_id
+  integration_uri = module.get_projects_lambda_api.integration_uri
+}
+
+module "api_gateway_deployment" {
+  source = "./tf-modules/api_gateway_deployment"
+
+  api_id     = module.api_gateway.api_id
+  stage_name = var.api_gateway_deployment["stage_name"]
+}
+
+module "api_gateway_domain_name" {
+  source = "./tf-modules/api_gateway_domain_name"
+
+  domain_name             = var.api_gateway_domain_name["name"]
+  certificate_arn         = var.api_gateway_domain_name["certificate_arn"]
+  endpoint_configuration = var.api_gateway_domain_name["endpoint_configuration"]
+}
+
+module "api_gateway_base_path_mapping" {
+  source = "./tf-modules/api_gateway_base_path_mapping"
+
+  domain_name = module.api_gateway_domain_name.domain_name
+  api_id      = module.api_gateway.api_id
+  stage_name  = var.api_gateway_deployment["stage_name"]
 }

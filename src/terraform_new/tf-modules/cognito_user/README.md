@@ -18,9 +18,7 @@ No requirements.
 
 | Name | Type |
 |------|------|
-| [aws_cognito_user_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cognito_user_group) | resource |
-| [aws_iam_role.group_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_policy_document.policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_cognito_user.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cognito_user) | resource |
 
 ## Inputs
 
@@ -28,14 +26,13 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | <a name="input_company"></a> [company](#input\_company) | Name of the company hosting the resource. | `string` | `"company"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment. Allowed values: `dev`, `uat` , `prd` | `string` | `"dev"` | no |
-| <a name="input_name"></a> [name](#input\_name) | Application name. | `string` | n/a | yes |
-| <a name="input_policy_statement"></a> [policy\_statement](#input\_policy\_statement) | Policy statement for Cognito User Group. | `string` | n/a | yes |
 | <a name="input_project"></a> [project](#input\_project) | Project name | `string` | `"blueprint"` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS Region | `string` | `"eu-west-2"` | no |
 | <a name="input_user_pool_id"></a> [user\_pool\_id](#input\_user\_pool\_id) | (Required) User pool the client belongs to. | `string` | n/a | yes |
+| <a name="input_username"></a> [username](#input\_username) | (Required) The username for the user. Must be unique within the user pool. Must be a UTF-8 string between 1 and 128 characters. After the user is created, the username cannot be changed. | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_name"></a> [name](#output\_name) | n/a |
+| <a name="output_username"></a> [username](#output\_username) | n/a |
