@@ -300,7 +300,7 @@ module "cognito_user_standard_group_attachment" {
 
 module "api_gateway" {
   source = "./tf-modules/api_gateway_api"
-  
+
   api_name = var.api_gateway["name"]
   stage_name = var.api_gateway["stage_name"]
   stage_auto_deploy = var.api_gateway_stage_deploy
@@ -309,14 +309,10 @@ module "api_gateway" {
 module "api_gateway_authorizer" {
   source = "./tf-modules/api_gateway_authorizer"
 
-  api_id        = module.api_gateway.api_id
-  api_arn       = module.api_gateway.api_arn
-  authorizer_name = var.api_gateway_authorizer["name"]
-  identity_source = var.api_gateway_authorizer["identity_source"]
-  provider_arns   = var.api_gateway_authorizer["provider_arns"]
-  type            = var.api_gateway_authorizer["type"]
-  authorizer_uri  = var.api_gateway_authorizer["authorizer_uri"]
-  authorizer_credentials = var.api_gateway_authorizer["authorizer_credentials"]
+  api_id                  = module.api_gateway.api_id
+  authorizer_name         = var.api_gateway_authorizer["name"]
+  identity_sources        = var.api_gateway_authorizer["identity_source"]
+  authorizer_uri          = module.get_project_lambda.arn
 }
 
 module "api_gateway_resource" {
